@@ -109,23 +109,30 @@ $.ajax({
 });
 
 //###################################   ADD BOOK   #############################################
+// Musi być jak chcesz mieć submit
+$( document ).ready(function() {
 
-$.ajax({
-    url: "http://127.0.0.1:8000/book/",
-    data: {
-        'author': $('#author').val(),
-        'title': $('#title').val(),
-        'isbn': $('#isbn').val(),
-        'publisher': $('#publisher').val(),
-        'genre': $('#genre').val(),
-    },
-    type: "post",
-    dataType: "json"
-}).done(function () {
-    console.log('Dodano książkę!')
+    $("#new_book_form").on('submit', function(e) {
+
+        e.preventDefault(); // To jest potrzebne jak chcesz zatrzymać domyślną akcję - czyli submit form - nie przeładuje strony
+        var data = JSON.stringify({
+                    'author': $('#author').val(),
+                    'title': $('#title').val(),
+                    'isbn': $('#isbn').val(),
+                    'publisher': $('#publisher').val(),
+                    'genre': parseInt($('#genre').val()),
+                    });
+
+        $.ajax({
+            url: "http://127.0.0.1:8000/book/",
+            data: data,
+            type: "post",
+            dataType: "json",
+            contentType: "application/json",
+        }).done(function () {
+            console.log('Dodano książkę!')
+        });
+    });
 });
-
-
-
 
 
